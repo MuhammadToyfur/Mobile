@@ -5,37 +5,41 @@ void main() {
   print("=== GAME TEBAK ANGKA SEDERHANA ===");
 
   bool lanjutMain = true;
+  int totalMain = 0;
+  int totalMenang = 0;
 
   while (lanjutMain) {
-    print("Coba tebak angka 1–10!");
-    mulaiGame(10, 3); // kesempatan statis
+    totalMain++;
+    print("\nPermainan ke-$totalMain");
 
+    // Pilih level dan tentukan batas angka
+    int maxAngka = pilihLevel();
+
+    // Jumlah kesempatan berdasarkan level
+    int kesempatan = (maxAngka ~/ 10) + 3;
+
+    // Mulai permainan
+    bool berhasil = mulaiGame(maxAngka, kesempatan);
+
+    if (berhasil) {
+      totalMenang++;
+    }
+
+    // Statistik sementara
+    print("Skor sementara: $totalMenang menang dari $totalMain permainan");
+
+    // Tanya main lagi
     stdout.write("Mau main lagi? (y/n): ");
     String? jawab = stdin.readLineSync();
-    if (jawab != 'y') lanjutMain = false;
-  }
-}
-
-bool mulaiGame(int maxAngka, int kesempatan) {
-  Random rand = Random();
-  int target = rand.nextInt(maxAngka) + 1;
-
-  for (int percobaan = 1; percobaan <= kesempatan; percobaan++) {
-    stdout.write("Tebakan ke-$percobaan: ");
-    int? tebakan = int.tryParse(stdin.readLineSync() ?? '');
-    if (tebakan == target) {
-      print("Benar!");
-      return true;
-    } else {
-      print("Salah!");
+    if (jawab == null || jawab.toLowerCase() != 'y') {
+      lanjutMain = false;
     }
   }
 
-  print("Kesempatan habis. Angka yang benar: $target");
-  return false;
+  print("\nTerima kasih sudah bermain!");
 }
 
-// Fungsi untuk memilih level (return batas angka)
+// Fungsi untuk memilih level
 int pilihLevel() {
   int level = 0;
   while (level < 1 || level > 3) {
@@ -59,7 +63,7 @@ bool mulaiGame(int maxAngka, int kesempatan) {
   int target = rand.nextInt(maxAngka) + 1;
   int percobaan = 0;
 
-  print("\nSaya sudah pilih angka 1  $maxAngka. Coba tebak!");
+  print("\nSaya sudah pilih angka 1–$maxAngka. Coba tebak!");
 
   while (percobaan < kesempatan) {
     percobaan++;
@@ -67,19 +71,21 @@ bool mulaiGame(int maxAngka, int kesempatan) {
     String? input = stdin.readLineSync();
     int? tebakan = int.tryParse(input ?? '');
 
+    // Validasi input
     if (tebakan == null) {
       print(" Masukkan angka yang valid!");
       percobaan--; // tidak dihitung jika salah input
       continue;
     }
 
+    // Cek tebakan
     if (tebakan == target) {
-      print(" Benar! Angkanya $target.");
+      print("Benar! Angkanya $target.");
       return true;
     } else if (tebakan < target) {
-      print(" Terlalu kecil");
+      print("⬇ Terlalu kecil");
     } else {
-      print(" Terlalu besar");
+      print("⬆ Terlalu besar");
     }
   }
 
