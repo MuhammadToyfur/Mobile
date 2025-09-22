@@ -13,7 +13,7 @@ void main() {
 
     // === FITUR 2: VALIDASI INPUT ===
     if (tinggi == null || berat == null || tinggi <= 0 || berat <= 0) {
-      print("⚠️ Input tidak valid, coba lagi.\n");
+      print(" Input tidak valid, coba lagi.\n");
       continue;
     }
 
