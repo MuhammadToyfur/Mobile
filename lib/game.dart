@@ -5,37 +5,34 @@ void main() {
   print("=== GAME TEBAK ANGKA SEDERHANA ===");
 
   bool lanjutMain = true;
-  int totalMain = 0;
-  int totalMenang = 0;
 
-  // Perulangan utama (game bisa dimainkan berkali-kali)
   while (lanjutMain) {
-    totalMain++;
-    print("\n Permainan ke-$totalMain");
+    print("Coba tebak angka 1–10!");
+    mulaiGame(10, 3); // kesempatan statis
 
-    // Tentukan batas angka dan kesempatan
-    int maxAngka = pilihLevel();
-    int kesempatan = (maxAngka ~/ 10) + 3; // contoh formula jumlah kesempatan
-
-    // Panggil fungsi untuk mulai permainan
-    bool berhasil = mulaiGame(maxAngka, kesempatan);
-
-    if (berhasil) {
-      totalMenang++;
-    }
-
-    // Statistik singkat
-    print(" Skor sementara: $totalMenang menang dari $totalMain permainan");
-
-    // Tanya apakah ingin main lagi
     stdout.write("Mau main lagi? (y/n): ");
     String? jawab = stdin.readLineSync();
-    if (jawab == null || jawab.toLowerCase() != 'y') {
-      lanjutMain = false;
+    if (jawab != 'y') lanjutMain = false;
+  }
+}
+
+bool mulaiGame(int maxAngka, int kesempatan) {
+  Random rand = Random();
+  int target = rand.nextInt(maxAngka) + 1;
+
+  for (int percobaan = 1; percobaan <= kesempatan; percobaan++) {
+    stdout.write("Tebakan ke-$percobaan: ");
+    int? tebakan = int.tryParse(stdin.readLineSync() ?? '');
+    if (tebakan == target) {
+      print("Benar!");
+      return true;
+    } else {
+      print("Salah!");
     }
   }
 
-  print("\nTerima kasih sudah bermain!");
+  print("Kesempatan habis. Angka yang benar: $target");
+  return false;
 }
 
 // Fungsi untuk memilih level (return batas angka)
