@@ -27,6 +27,12 @@ void main() {
     // Statistik singkat
     print(" Skor sementara: $totalMenang menang dari $totalMain permainan");
 
+    // MODIFIKASI: batas permainan maksimal 10
+    if (totalMain == 10) {
+      print("Sudah 10 permainan, selamat mencoba lagi nanti!");
+      break;
+    }
+
     // Tanya apakah ingin main lagi
     stdout.write("Mau main lagi? (y/n): ");
     String? jawab = stdin.readLineSync();
@@ -78,14 +84,31 @@ bool mulaiGame(int maxAngka, int kesempatan) {
 
     if (tebakan == target) {
       print(" Benar! Angkanya $target.");
+
+      // MODIFIKASI: cek bilangan prima
+      if (isPrime(target)) {
+        print("Wow, angkanya juga bilangan prima!");
+      }
+
       return true;
     } else if (tebakan < target) {
+      // MODIFIKASI: panah ke bawah
       print(" Terlalu kecil");
     } else {
+      // MODIFIKASI: panah ke atas
       print(" Terlalu besar");
     }
   }
 
   print("Kesempatan habis. Angka yang benar: $target");
   return false;
+}
+
+// MODIFIKASI: fungsi cek bilangan prima
+bool isPrime(int n) {
+  if (n < 2) return false;
+  for (int i = 2; i <= sqrt(n).toInt(); i++) {
+    if (n % i == 0) return false;
+  }
+  return true;
 }
